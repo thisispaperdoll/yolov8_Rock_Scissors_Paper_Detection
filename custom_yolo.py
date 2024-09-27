@@ -105,7 +105,7 @@ if stop_button:
 
 # 웹캠 스트리밍 상태에 따른 처리
 if st.session_state.streaming:
-    webcamera = cv2.VideoCapture(camera_index)
+    webcamera = st.camera_input(camera_index)
     stframe = st.empty()  # Streamlit에서 사용할 빈 이미지 프레임 설정
     
     while st.session_state.streaming:
