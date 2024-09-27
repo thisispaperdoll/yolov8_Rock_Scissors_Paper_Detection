@@ -109,12 +109,14 @@ if st.session_state.streaming:
 
     while st.session_state.streaming:
         # st.camera_input()을 사용하여 웹캠에서 프레임 캡처
-        img_file_buffer = st.camera_input("Capture", key="camera_input")
+        img_file_buffer = st.camera_input("Capture")
 
         if img_file_buffer is not None:
             # 이미지를 OpenCV 형식으로 변환
-            frame = np.array(Image.open(img_file_buffer))
-            frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+            bytes_data = img_file_buffer.getvalue()
+            frame = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
+            # frame = np.array(Image.open(img_file_buffer))
+            # frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
             # 객체 탐지 (Rock, Paper, Scissors 클래스 탐지)
             results = model.predict(frame, classes=[0, 1, 2], conf=0.4, imgsz=640)
