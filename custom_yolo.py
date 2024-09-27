@@ -46,7 +46,7 @@ camera_index = st.sidebar.selectbox("Select Camera Index", [0, 1, 2])
 
 # 모델 클래스 이름 출력
 st.sidebar.text("Model Classes:")
-st.sidebar.write(model.names)
+# st.sidebar.write(model.names)
 
 # 업로드된 이미지 분류 섹션
 st.sidebar.header("Image Upload for Classification")
