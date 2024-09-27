@@ -137,7 +137,6 @@
 #     st.write("Webcam streaming stopped.")
 
 
-
 import logging
 import queue
 from typing import List, NamedTuple
@@ -246,8 +245,11 @@ result_queue: "queue.Queue[List[Detection]]" = queue.Queue()
 def video_frame_callback(frame: av.VideoFrame) -> av.VideoFrame:
     image = frame.to_ndarray(format="bgr24")
 
+    # 프레임 크기 줄이기
+    image = cv2.resize(image, (320, 240))
+
     # 객체 탐지 (Rock, Paper, Scissors 클래스 탐지)
-    results = model.predict(image, classes=[0, 1, 2], conf=0.4, imgsz=640)
+    results = model.predict(image, classes=[0, 1, 2], conf=0.4, imgsz=320)
 
     h, w = image.shape[:2]
 
@@ -309,7 +311,11 @@ if st.session_state.get("streaming", False):
     if st.checkbox("Show the detected labels", value=True):
         if webrtc_ctx.state.playing:
             labels_placeholder = st.empty()
-            
+            # NOTE: The video transformation with object detection and
+            # this loop displaying the result labels are running
+            # in different threads asynchronously.
+            # Then the rendered video frames and the labels displayed here
+            # are not strictly synchronized.
             while True:
                 result = result_queue.get()
                 labels_placeholder.table(result)
