@@ -123,18 +123,18 @@ if st.session_state.streaming:
             if not success:
                 st.error("웹캠에서 프레임을 읽어올 수 없습니다.")
                 break
-
-        # 객체 탐지 (Rock, Paper, Scissors 클래스 탐지)
-        results = model.predict(frame, classes=[0, 1, 2], conf=0.4, imgsz=640)
-
-        # 탐지된 결과 시각화
-        annotated_frame = results[0].plot()
-        
-        # BGR 이미지를 RGB로 변환 (OpenCV는 BGR 형식이므로, RGB 형식으로 변환 필요)
-        annotated_frame = cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB)
-
-        # Streamlit을 통해 이미지 표시
-        stframe.image(annotated_frame, channels="RGB")
+    
+            # 객체 탐지 (Rock, Paper, Scissors 클래스 탐지)
+            results = model.predict(frame, classes=[0, 1, 2], conf=0.4, imgsz=640)
+    
+            # 탐지된 결과 시각화
+            annotated_frame = results[0].plot()
+            
+            # BGR 이미지를 RGB로 변환 (OpenCV는 BGR 형식이므로, RGB 형식으로 변환 필요)
+            annotated_frame = cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB)
+    
+            # Streamlit을 통해 이미지 표시
+            stframe.image(annotated_frame, channels="RGB")
 
     webcamera.release()
     st.write("Webcam streaming stopped.")
