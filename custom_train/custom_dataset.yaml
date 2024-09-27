@@ -1,0 +1,33 @@
+# Ultralytics YOLO 🚀, AGPL-3.0 license
+# COCO 2017 dataset https://cocodataset.org by Microsoft
+# Documentation: https://docs.ultralytics.com/datasets/detect/coco/
+# Example usage: yolo train data=coco.yaml
+# parent
+# ├── ultralytics
+# └── datasets
+#     └── coco  ← downloads here (20.1 GB)
+
+# Dataset root directory
+path: C:/ITStudy/09_MLDL/yolo_project/datasets  # 데이터셋이 저장된 루트 디렉토리 경로
+
+# Train and validation directories (relative to 'path')
+train: C:/ITStudy/09_MLDL/yolo_project/datasets/train/images # 학습 데이터 이미지 경로
+val: C:/ITStudy/09_MLDL/yolo_project/datasets/valid/images    # 검증 데이터 이미지 경로
+
+# Number of classes
+nc: 3  # 클래스 개수: Rock, Paper, Scissors
+
+# Class names
+names:
+  0: rock
+  1: paper
+  2: scissors
+
+
+# # Download script/URL (optional)
+# download: |
+#   from roboflow import Roboflow
+#   rf = Roboflow(api_key="rcminH5nMfzUi5IAwv1t")  # 여기에 실제 API 키를 입력하세요
+#   project = rf.workspace("jiisuuyaa").project("rock-paper-scissors-sxsw-osanp")
+#   version = project.version(1)
+#   dataset = version.download("yolov8")
