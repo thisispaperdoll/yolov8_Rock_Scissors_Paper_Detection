@@ -105,14 +105,24 @@ if stop_button:
 
 # 웹캠 스트리밍 상태에 따른 처리
 if st.session_state.streaming:
-    webcamera = st.camera_input(camera_index)
+     # cap = cv2.VideoCapture(0)
+    # frame_placeholder = st.empty()
+    stop_button_pressed = st.button("Stop")
+    while cap.isOpened() and not stop_button_pressed:
+        ret, frame = cap.read()
+        if not ret:
+            st.write("Video Capture Ended")
+            break
+            
+    webcamera = cv2.VideoCapture(0)
     stframe = st.empty()  # Streamlit에서 사용할 빈 이미지 프레임 설정
     
     while st.session_state.streaming:
-        success, frame = webcamera.read()
-        if not success:
-            st.error("웹캠에서 프레임을 읽어올 수 없습니다.")
-            break
+        while cap.isOpened() and not stop_button_pressed:
+            success, frame = webcamera.read()
+            if not success:
+                st.error("웹캠에서 프레임을 읽어올 수 없습니다.")
+                break
 
         # 객체 탐지 (Rock, Paper, Scissors 클래스 탐지)
         results = model.predict(frame, classes=[0, 1, 2], conf=0.4, imgsz=640)
