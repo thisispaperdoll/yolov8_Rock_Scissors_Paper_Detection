@@ -107,12 +107,12 @@ if stop_button:
 if st.session_state.streaming:
      # cap = cv2.VideoCapture(0)
     # frame_placeholder = st.empty()
-    stop_button_pressed = st.button("Stop")
-    while webcamera.isOpened() and not stop_button_pressed:
-        ret, frame = webcamera.read()
-        if not ret:
-            st.write("Video Capture Ended")
-            break
+    # stop_button_pressed = st.button("Stop")
+    # while webcamera.isOpened() and not stop_button_pressed:
+    #     ret, frame = webcamera.read()
+    #     if not ret:
+    #         st.write("Video Capture Ended")
+    #         break
             
     webcamera = cv2.VideoCapture(0)
     stframe = st.empty()  # Streamlit에서 사용할 빈 이미지 프레임 설정
