@@ -142,7 +142,7 @@ import cv2
 from ultralytics import YOLO
 import numpy as np
 from PIL import Image
-from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, WebRtcMode
+from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, WebRtcMode
 
 # 페이지 설정
 st.set_page_config(page_title="YOLO Model Demo", layout="centered")
@@ -229,11 +229,11 @@ if uploaded_file is not None:
 # 웹캠 스트리밍
 st.header("Real-Time Classification with Webcam")
 
-class VideoTransformer(VideoTransformerBase):
+class VideoProcessor(VideoProcessorBase):
     def __init__(self):
         self.model = YOLO('./custom_train/yolov8n_rock_paper_scissors.pt')
 
-    def transform(self, frame):
+    def recv(self, frame):
         img = frame.to_ndarray(format="bgr24")
 
         # 객체 탐지 (Rock, Paper, Scissors 클래스 탐지)
@@ -244,4 +244,4 @@ class VideoTransformer(VideoTransformerBase):
 
         return annotated_frame
 
-webrtc_streamer(key="example", video_transformer_factory=VideoTransformer, mode=WebRtcMode.SENDRECV)
+webrtc_streamer(key="example", video_processor_factory=VideoProcessor, mode=WebRtcMode.SENDRECV)
