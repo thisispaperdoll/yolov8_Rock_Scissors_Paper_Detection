@@ -109,7 +109,7 @@ if st.session_state.streaming:
     # frame_placeholder = st.empty()
     stop_button_pressed = st.button("Stop")
     while webcamera.isOpened() and not stop_button_pressed:
-        ret, frame = cap.read()
+        ret, frame = webcamera.read()
         if not ret:
             st.write("Video Capture Ended")
             break
