@@ -9,38 +9,38 @@ from ultralytics import solutions
 # Pass a model as an argument
 solutions.inference(model="./custom_train/yolov8n_rock_paper_scissors.pt")
 
-# # 페이지 설정
-# st.set_page_config(page_title="YOLO Model Demo", layout="centered")
+# 페이지 설정
+st.set_page_config(page_title="YOLO Model Demo", layout="centered")
 
-# # 페이지 제목 및 설명
-# st.title("🤸‍♀️YOLOv8")
-# st.title("Rock✊, Scissors✌, Paper🖐 Detection")
-# st.write("""
-# YOLOv8 모델을 사용하여 가위, 바위, 보를 실시간으로 분류합니다.
-# 이 모델은 Roboflow를 통해 학습된 데이터셋을 사용하며, 다음과 같은 과정을 거쳤습니다:
-# - 데이터 수집 및 라벨링
-# - 모델 학습 및 검증
-# - 웹캠을 통한 실시간 객체 탐지
-# """)
+페이지 제목 및 설명
+st.title("🤸‍♀️YOLOv8")
+st.title("Rock✊, Scissors✌, Paper🖐 Detection")
+st.write("""
+YOLOv8 모델을 사용하여 가위, 바위, 보를 실시간으로 분류합니다.
+이 모델은 Roboflow를 통해 학습된 데이터셋을 사용하며, 다음과 같은 과정을 거쳤습니다:
+- 데이터 수집 및 라벨링
+- 모델 학습 및 검증
+- 웹캠을 통한 실시간 객체 탐지
+""")
 
-# # 수평으로 이미지 정렬
-# col1, col2 = st.columns(2)
+# 수평으로 이미지 정렬
+col1, col2 = st.columns(2)
 
-# # 각 컬럼에 이미지 추가
-# with col1:
-#     st.image("https://github.com/user-attachments/assets/cbc639f2-7055-419e-a94e-6e1fbe143b61", 
-#              caption="Rock, Paper, Scissors Dataset", use_column_width=True)
+# 각 컬럼에 이미지 추가
+with col1:
+    st.image("https://github.com/user-attachments/assets/cbc639f2-7055-419e-a94e-6e1fbe143b61", 
+             caption="Rock, Paper, Scissors Dataset", use_column_width=True)
 
-# with col2:
-#     st.image("https://github.com/user-attachments/assets/3840f1b6-06ce-401b-b242-1dc0e1dbf891", 
-#              caption="YOLOv8 Model", use_column_width=True)
+with col2:
+    st.image("https://github.com/user-attachments/assets/3840f1b6-06ce-401b-b242-1dc0e1dbf891", 
+             caption="YOLOv8 Model", use_column_width=True)
 
-# # 모델 설명 추가
-# st.write("""
-# 위의 이미지는 학습된 데이터셋과 YOLOv8 모델의 구조를 나타냅니다.
-# 실시간 웹캠에서 가위✌, 바위✊, 보🖐 중 하나를 내면
-# yolov8 모델을 통해 분류할 수 있습니다 !✨
-# """)
+# 모델 설명 추가
+st.write("""
+위의 이미지는 학습된 데이터셋과 YOLOv8 모델의 구조를 나타냅니다.
+실시간 웹캠에서 가위✌, 바위✊, 보🖐 중 하나를 내면
+yolov8 모델을 통해 분류할 수 있습니다 !✨
+""")
 
 # # 웹캠 선택 및 설정
 # st.header("웹캠을 통해 실시간 분류하기")
