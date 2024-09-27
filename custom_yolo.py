@@ -41,8 +41,8 @@ yolov8 모델을 통해 분류할 수 있습니다 !✨
 st.header("웹캠을 통해 실시간 분류하기")
 camera_index = st.sidebar.selectbox("Select Camera Index", [0, 1, 2])
 
-# 모델 파일 경로 설정
-model = YOLO('./custom_train/yolov8n_rock_paper_scissors.pt')  # 모델 파일 경로
+# # 모델 파일 경로 설정
+# model = YOLO('./custom_train/yolov8n_rock_paper_scissors.pt')  # 모델 파일 경로
 
 # 모델 클래스 이름 출력
 st.sidebar.text("Model Classes:")
@@ -105,29 +105,30 @@ if stop_button:
 
 # 웹캠 스트리밍 상태에 따른 처리
 if st.session_state.streaming:
-    stframe = st.empty()  # Streamlit에서 사용할 빈 이미지 프레임 설정
+    solutions.inference(model="./custom_train/yolov8n_rock_paper_scissors.pt")
+    # stframe = st.empty()  # Streamlit에서 사용할 빈 이미지 프레임 설정
 
-    # while st.session_state.streaming:
-    # st.camera_input()을 사용하여 웹캠에서 프레임 캡처
-    img_file_buffer = st.camera_input("Capture")
+    # # while st.session_state.streaming:
+    # # st.camera_input()을 사용하여 웹캠에서 프레임 캡처
+    # img_file_buffer = st.camera_input("Capture")
 
-    if img_file_buffer is not None:
-        # 이미지를 OpenCV 형식으로 변환
-        frame = img_file_buffer.getvalue()
-        frame = cv2.imdecode(np.frombuffer(frame, np.uint8), cv2.IMREAD_COLOR)
-        # frame = np.array(Image.open(img_file_buffer))
-        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+    # if img_file_buffer is not None:
+    #     # 이미지를 OpenCV 형식으로 변환
+    #     frame = img_file_buffer.getvalue()
+    #     frame = cv2.imdecode(np.frombuffer(frame, np.uint8), cv2.IMREAD_COLOR)
+    #     # frame = np.array(Image.open(img_file_buffer))
+    #     frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
-        # 객체 탐지 (Rock, Paper, Scissors 클래스 탐지)
-        results = model.predict(frame, classes=[0, 1, 2], conf=0.4, imgsz=640)
+    #     # 객체 탐지 (Rock, Paper, Scissors 클래스 탐지)
+    #     results = model.predict(frame, classes=[0, 1, 2], conf=0.4, imgsz=640)
 
-        # 탐지된 결과 시각화
-        annotated_frame = results[0].plot()
+    #     # 탐지된 결과 시각화
+    #     annotated_frame = results[0].plot()
 
-        # BGR 이미지를 RGB로 변환 (OpenCV는 BGR 형식이므로, RGB 형식으로 변환 필요)
-        annotated_frame = cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB)
+    #     # BGR 이미지를 RGB로 변환 (OpenCV는 BGR 형식이므로, RGB 형식으로 변환 필요)
+    #     annotated_frame = cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB)
 
-        # Streamlit을 통해 이미지 표시
-        stframe.image(annotated_frame, channels="RGB")
+    #     # Streamlit을 통해 이미지 표시
+    #     stframe.image(annotated_frame, channels="RGB")
 
     st.write("Webcam streaming stopped.")
