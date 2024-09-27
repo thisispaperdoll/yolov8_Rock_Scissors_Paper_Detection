@@ -12,7 +12,7 @@ solutions.inference(model="./custom_train/yolov8n_rock_paper_scissors.pt")
 # 페이지 설정
 st.set_page_config(page_title="YOLO Model Demo", layout="centered")
 
-페이지 제목 및 설명
+# 페이지 제목 및 설명
 st.title("🤸‍♀️YOLOv8")
 st.title("Rock✊, Scissors✌, Paper🖐 Detection")
 st.write("""
