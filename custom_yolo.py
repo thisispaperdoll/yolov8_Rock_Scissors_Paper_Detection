@@ -114,7 +114,7 @@ if st.session_state.streaming:
     if img_file_buffer is not None:
         # 이미지를 OpenCV 형식으로 변환
         frame = img_file_buffer.getvalue()
-        frame = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
+        frame = cv2.imdecode(np.frombuffer(frame, np.uint8), cv2.IMREAD_COLOR)
         # frame = np.array(Image.open(img_file_buffer))
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
