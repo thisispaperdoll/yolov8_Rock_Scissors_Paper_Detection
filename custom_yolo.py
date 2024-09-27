@@ -3,11 +3,11 @@ import cv2
 from ultralytics import YOLO
 import numpy as np
 from PIL import Image
-
-from ultralytics import solutions
+from utils import load_model, infer_uploaded_image, infer_uploaded_video, infer_uploaded_webcam
+# from ultralytics import solutions
 
 # Pass a model as an argument
-solutions.inference(model="./custom_train/yolov8n_rock_paper_scissors.pt")
+# solutions.inference(model="./custom_train/yolov8n_rock_paper_scissors.pt")
 
 # 페이지 설정
 st.set_page_config(page_title="YOLO Model Demo", layout="centered")
@@ -42,76 +42,77 @@ st.write("""
 yolov8 모델을 통해 분류할 수 있습니다 !✨
 """)
 
-# # 웹캠 선택 및 설정
-# st.header("웹캠을 통해 실시간 분류하기")
-# camera_index = st.sidebar.selectbox("Select Camera Index", [0, 1, 2])
+# 웹캠 선택 및 설정
+st.header("웹캠을 통해 실시간 분류하기")
+camera_index = st.sidebar.selectbox("Select Camera Index", [0, 1, 2])
 
-# # # 모델 파일 경로 설정
-# model = YOLO('./custom_train/yolov8n_rock_paper_scissors.pt')  # 모델 파일 경로
+# 모델 파일 경로 설정
+model = YOLO('./custom_train/yolov8n_rock_paper_scissors.pt')  # 모델 파일 경로
 
-# # 모델 클래스 이름 출력
-# st.sidebar.text("Model Classes:")
-# # st.sidebar.write(model.names)
+# 모델 클래스 이름 출력
+st.sidebar.text("Model Classes:")
+st.sidebar.write(model.names)
 
-# # 업로드된 이미지 분류 섹션
-# st.sidebar.header("Image Upload for Classification")
-# uploaded_file = st.sidebar.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
+# 업로드된 이미지 분류 섹션
+st.sidebar.header("Image Upload for Classification")
+uploaded_file = st.sidebar.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
 
-# if uploaded_file is not None:
-#     # 업로드된 이미지를 PIL로 열기
-#     image = Image.open(uploaded_file)
+if uploaded_file is not None:
+    # 업로드된 이미지를 PIL로 열기
+    image = Image.open(uploaded_file)
 
-#     # 이미지를 OpenCV 형식으로 변환
-#     frame = np.array(image)
-#     frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+    # 이미지를 OpenCV 형식으로 변환
+    frame = np.array(image)
+    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
-#     # 업로드된 이미지 표시
-#     st.image(image, caption="Uploaded Image", use_column_width=True)
+    # 업로드된 이미지 표시
+    st.image(image, caption="Uploaded Image", use_column_width=True)
 
-#     # 객체 탐지 (Rock, Paper, Scissors 클래스 탐지)
-#     results = model.predict(frame, classes=[0, 1, 2], conf=0.4, imgsz=640)
+    # 객체 탐지 (Rock, Paper, Scissors 클래스 탐지)
+    results = model.predict(frame, classes=[0, 1, 2], conf=0.4, imgsz=640)
 
-#     # 탐지된 결과 시각화
-#     annotated_frame = results[0].plot()
+    # 탐지된 결과 시각화
+    annotated_frame = results[0].plot()
 
-#     # BGR 이미지를 RGB로 변환 (OpenCV는 BGR 형식이므로, RGB 형식으로 변환 필요)
-#     annotated_frame = cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB)
+    # BGR 이미지를 RGB로 변환 (OpenCV는 BGR 형식이므로, RGB 형식으로 변환 필요)
+    annotated_frame = cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB)
 
-#     # Streamlit을 통해 탐지된 이미지 표시
-#     st.image(annotated_frame, caption="Detected Image", use_column_width=True)
+    # Streamlit을 통해 탐지된 이미지 표시
+    st.image(annotated_frame, caption="Detected Image", use_column_width=True)
 
-#     # 감지된 객체 목록 표시
-#     st.subheader("Detected Objects")
-#     if len(results[0].boxes) > 0:
-#         for box in results[0].boxes:
-#             cls = int(box.cls[0])
-#             label = model.names[cls]
-#             confidence = box.conf[0]
-#             st.write(f"Detected {label} with {confidence:.2f} confidence.")
-#     else:
-#         st.write("No objects detected.")
+    # 감지된 객체 목록 표시
+    st.subheader("Detected Objects")
+    if len(results[0].boxes) > 0:
+        for box in results[0].boxes:
+            cls = int(box.cls[0])
+            label = model.names[cls]
+            confidence = box.conf[0]
+            st.write(f"Detected {label} with {confidence:.2f} confidence.")
+    else:
+        st.write("No objects detected.")
 
-# # 웹캠 스트리밍
-# st.header("Real-Time Classification with Webcam")
+# 웹캠 스트리밍
+st.header("Real-Time Classification with Webcam")
 
-# # 웹캠 스트리밍 시작 및 중지 상태를 관리하는 변수
-# if "streaming" not in st.session_state:
-#     st.session_state.streaming = False
+# 웹캠 스트리밍 시작 및 중지 상태를 관리하는 변수
+if "streaming" not in st.session_state:
+    st.session_state.streaming = False
 
-# # 웹캠 스트리밍 시작 버튼
-# start_button = st.button("Start Webcam")
-# if start_button:
-#     st.session_state.streaming = True
+# 웹캠 스트리밍 시작 버튼
+start_button = st.button("Start Webcam")
+if start_button:
+    st.session_state.streaming = True
 
-# # 웹캠 스트리밍 중지 버튼
-# stop_button = st.button("Stop Webcam")
-# if stop_button:
-#     st.session_state.streaming = False
+# 웹캠 스트리밍 중지 버튼
+stop_button = st.button("Stop Webcam")
+if stop_button:
+    st.session_state.streaming = False
 
-# # 웹캠 스트리밍 상태에 따른 처리
-# if st.session_state.streaming:
-    
-#     # solutions.inference(model="./custom_train/yolov8n_rock_paper_scissors.pt")
+# 웹캠 스트리밍 상태에 따른 처리
+if st.session_state.streaming:
+    confidence = 0.25
+    infer_uploaded_webcam(confidence, model)
+
 #     stframe = st.empty()  # Streamlit에서 사용할 빈 이미지 프레임 설정
 
 #     # while st.session_state.streaming:
