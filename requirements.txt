@@ -2,8 +2,8 @@
 streamlit==1.38.0
 ultralytics @ git+https://github.com/ultralytics/ultralytics@03dc859c8e99bd8acdc423fb56ce51ecc0bdbe79
 torch==2.4.1
-#opencv-python-headless==4.10.0.84
-opencv-python
+opencv-python-headless
+#opencv-python
 pandas==2.2.3
 numpy==1.26.4
 # streamlit-webrtc
