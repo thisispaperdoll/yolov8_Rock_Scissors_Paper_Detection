@@ -107,27 +107,27 @@ if stop_button:
 if st.session_state.streaming:
     stframe = st.empty()  # Streamlit에서 사용할 빈 이미지 프레임 설정
 
-    while st.session_state.streaming:
-        # st.camera_input()을 사용하여 웹캠에서 프레임 캡처
-        img_file_buffer = st.camera_input("Capture")
+    # while st.session_state.streaming:
+    # st.camera_input()을 사용하여 웹캠에서 프레임 캡처
+    img_file_buffer = st.camera_input("Capture")
 
-        if img_file_buffer is not None:
-            # 이미지를 OpenCV 형식으로 변환
-            bytes_data = img_file_buffer.getvalue()
-            frame = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
-            # frame = np.array(Image.open(img_file_buffer))
-            # frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+    if img_file_buffer is not None:
+        # 이미지를 OpenCV 형식으로 변환
+        bytes_data = img_file_buffer.getvalue()
+        frame = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
+        # frame = np.array(Image.open(img_file_buffer))
+        # frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
-            # 객체 탐지 (Rock, Paper, Scissors 클래스 탐지)
-            results = model.predict(frame, classes=[0, 1, 2], conf=0.4, imgsz=640)
+        # 객체 탐지 (Rock, Paper, Scissors 클래스 탐지)
+        results = model.predict(frame, classes=[0, 1, 2], conf=0.4, imgsz=640)
 
-            # 탐지된 결과 시각화
-            annotated_frame = results[0].plot()
+        # 탐지된 결과 시각화
+        annotated_frame = results[0].plot()
 
-            # BGR 이미지를 RGB로 변환 (OpenCV는 BGR 형식이므로, RGB 형식으로 변환 필요)
-            annotated_frame = cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB)
+        # BGR 이미지를 RGB로 변환 (OpenCV는 BGR 형식이므로, RGB 형식으로 변환 필요)
+        annotated_frame = cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB)
 
-            # Streamlit을 통해 이미지 표시
-            stframe.image(annotated_frame, channels="RGB")
+        # Streamlit을 통해 이미지 표시
+        stframe.image(annotated_frame, channels="RGB")
 
     st.write("Webcam streaming stopped.")
