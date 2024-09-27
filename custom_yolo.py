@@ -3,7 +3,7 @@ import cv2
 from ultralytics import YOLO
 import numpy as np
 from PIL import Image
-
+from ultralytics import solutions
 # 페이지 설정
 st.set_page_config(page_title="YOLO Model Demo", layout="centered")
 
