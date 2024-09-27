@@ -119,8 +119,8 @@ if st.session_state.streaming:
         frame = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
         # frame = img_file_buffer.getvalue()
         # frame = cv2.imdecode(np.frombuffer(frame, np.uint8), cv2.IMREAD_COLOR)
-    #     # frame = np.array(Image.open(img_file_buffer))
-        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        # frame = np.array(Image.open(img_file_buffer))
+        # frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
         # 객체 탐지 (Rock, Paper, Scissors 클래스 탐지)
         results = model.predict(frame, classes=[0, 1, 2], conf=0.4, imgsz=640)
